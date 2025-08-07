@@ -39,3 +39,6 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.temp 
+
+# Some files    
+go-interview-tasks/main.go
