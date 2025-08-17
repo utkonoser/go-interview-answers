@@ -43,13 +43,7 @@ fi
 echo "🔍 Статический анализ (go vet)..."
 go vet ./...
 
-echo "✨ Проверка golangci-lint..."
-if command -v golangci-lint >/dev/null 2>&1; then
-    golangci-lint run ./...
-    echo "✅ golangci-lint прошел успешно"
-else
-    echo "⚠️  golangci-lint не установлен. Установите: go install github.com/golangci/golangci-lint/cmd/golangangci-lint@latest"
-fi
+echo "✨ Проверка golangci-lint пропущена (не используется в проекте)"
 
 echo "=================================="
 echo "🎉 Все проверки завершены успешно!"

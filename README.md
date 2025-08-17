@@ -1,7 +1,6 @@
 # Go Interview Preparation
 
 [![Go Tests](https://github.com/utkonoser/interviews/workflows/Go%20Tests/badge.svg)](https://github.com/utkonoser/interviews/actions/workflows/go-tests.yml)
-[![Go Lint](https://github.com/utkonoser/interviews/workflows/Go%20Lint/badge.svg)](https://github.com/utkonoser/interviews/actions/workflows/go-lint.yml)
 
 Полный набор материалов для подготовки к собеседованиям по Go: теоретические вопросы с ответами и практические задачи.
 
@@ -58,9 +57,10 @@ go test -v
 Проект использует GitHub Actions для автоматической проверки:
 
 - **Тесты**: Автоматический запуск всех тестов при каждом пуше
-- **Линтинг**: Проверка качества кода с golangci-lint
 - **Покрытие**: Анализ покрытия кода тестами
 - **Бенчмарки**: Performance тестирование
+- **Форматирование**: Проверка `go fmt`
+- **Статический анализ**: Запуск `go vet`
 - **Множественные версии Go**: Тестирование на Go 1.21-1.24
 
 Статус CI/CD отображается в README и на странице Actions.

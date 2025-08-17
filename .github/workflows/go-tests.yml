@@ -49,10 +49,11 @@ jobs:
     - name: Run go vet
       run: go vet ./go-interview-tasks/...
       
-    - name: Run golint (if available)
+    - name: Run go fmt check
       run: |
-        if command -v golint >/dev/null 2>&1; then
-          golint ./go-interview-tasks/...
-        else
-          echo "golint not available, skipping..."
+        if [ "$(go fmt ./go-interview-tasks/... | wc -l)" -gt 0 ]; then
+          echo "Code is not formatted. Run: go fmt ./go-interview-tasks/..."
+          exit 1
         fi
+      
+
