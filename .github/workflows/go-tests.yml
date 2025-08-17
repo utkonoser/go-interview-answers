@@ -1,0 +1,58 @@
+name: Go Tests
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+
+jobs:
+  test:
+    name: Run Go Tests
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        go-version: [1.21, 1.22, 1.23, 1.24]
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Go ${{ matrix.go-version }}
+      uses: actions/setup-go@v4
+      with:
+        go-version: ${{ matrix.go-version }}
+        cache: true
+        
+    - name: Verify Go version
+      run: go version
+      
+    - name: Download dependencies
+      run: go mod download
+      
+    - name: Run all tests
+      run: go test -v ./go-interview-tasks/tests/...
+      
+    - name: Run tests with coverage
+      run: go test -v -coverprofile=coverage.out ./go-interview-tasks/tests/... ./go-interview-tasks/strings/...
+      
+    - name: Display coverage
+      run: go tool cover -func=coverage.out
+      
+    - name: Run benchmarks
+      run: go test -bench=. -benchmem ./go-interview-tasks/tests/...
+      
+    - name: Check code formatting
+      run: go fmt ./go-interview-tasks/...
+      
+    - name: Run go vet
+      run: go vet ./go-interview-tasks/...
+      
+    - name: Run golint (if available)
+      run: |
+        if command -v golint >/dev/null 2>&1; then
+          golint ./go-interview-tasks/...
+        else
+          echo "golint not available, skipping..."
+        fi
