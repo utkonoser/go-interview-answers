@@ -1,6 +1,6 @@
 # Практические задачи и алгоритмы
 
-## 72. Реализовать LRU кэш
+## 73. Реализовать LRU кэш
 
 LRU (Least Recently Used) кэш — структура данных с ограниченной емкостью, удаляющая наименее используемые элементы. Реализация: комбинация hash map (O(1) доступ) и двусвязного списка (O(1) обновление порядка). При доступе элемент перемещается в голову списка. При переполнении удаляется хвост списка. Операции Get/Put за O(1).
 
@@ -42,7 +42,7 @@ func (lru *LRUCache) Put(key, value int) {
 // moveToHead, removeTail, addToHead — вспомогательные методы работы со списком
 ```
 
-## 73. Реализовать thread-safe счетчик
+## 74. Реализовать thread-safe счетчик
 
 Thread-safe счетчик с использованием `sync.Mutex` или `atomic` операций. Для простых операций `atomic` эффективнее, для сложной логики — мьютекс.
 
@@ -79,7 +79,7 @@ func (c *Counter) Value() int64 {
 }
 ```
 
-## 74. Реализовать пул горутин (worker pool)
+## 75. Реализовать пул горутин (worker pool)
 
 Worker pool — фиксированное количество worker-горутин обрабатывает задачи из канала. Контроль конкурентности, переиспользование горутин.
 
@@ -103,7 +103,7 @@ func workerPool(jobs <-chan Job, results chan<- Result, numWorkers int) {
 }
 ```
 
-## 75. Реализовать rate limiter
+## 76. Реализовать rate limiter
 
 Rate limiter ограничивает количество запросов за период времени. Реализации: token bucket, sliding window, fixed window.
 
@@ -139,39 +139,6 @@ func (rl *RateLimiter) Allow() bool {
     default: // жетонов нет — лимит исчерпан
         return false
     }
-}
-```
-
-## 76. Реализовать простой HTTP сервер с middleware
-
-HTTP сервер с цепочкой middleware для логирования, аутентификации, обработки ошибок.
-
-```go
-// Middleware оборачивает handler и может сделать что-то до/после него
-type Middleware func(http.HandlerFunc) http.HandlerFunc
-
-func chain(middlewares ...Middleware) Middleware {
-    return func(next http.HandlerFunc) http.HandlerFunc {
-        // оборачиваем с конца: первый в списке — внешний слой
-        for i := len(middlewares) - 1; i >= 0; i-- {
-            next = middlewares[i](next)
-        }
-        return next
-    }
-}
-
-func logging(next http.HandlerFunc) http.HandlerFunc {
-    return func(w http.ResponseWriter, r *http.Request) {
-        start := time.Now()
-        next(w, r) // вызываем следующий handler в цепочке
-        log.Printf("%s %s %v", r.Method, r.URL.Path, time.Since(start))
-    }
-}
-
-func main() {
-    handler := chain(logging)(myHandler) // logging → myHandler
-    http.HandleFunc("/", handler)
-    http.ListenAndServe(":8080", nil)
 }
 ```
 
