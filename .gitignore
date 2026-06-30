@@ -42,3 +42,10 @@ Thumbs.db
 
 # Some files    
 go-interview-tasks/main.go
+
+# Environment variables
+.env
+.env.local
+
+# Python
+.venv/

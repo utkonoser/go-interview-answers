@@ -1,100 +1,77 @@
-# GitHub Actions для Go проекта
+# GitHub Actions
 
-Этот проект использует GitHub Actions для автоматической проверки кода при каждом пуше и pull request.
+Автоматическая проверка Go-кода при push и pull request в `main`, `master`, `develop`.
 
-## Workflows
+## Workflow: Go Tests (`workflows/go-tests.yml`)
 
-### 1. Go Tests (`go-tests.yml`)
-Запускает все тесты и проверки для Go кода:
+| Шаг | Что делает |
+|-----|------------|
+| Setup Go 1.24 | Установка Go, кэш модулей |
+| `go test -v` | Unit-тесты `go-interview-tasks/tests/...` |
+| Coverage | `go test -coverprofile` + `go tool cover` |
+| Benchmarks | `go test -bench=.` |
+| `go fmt` | Проверка форматирования |
+| `go vet` | Статический анализ |
 
-- **Тестирование**: Запуск всех unit тестов
-- **Покрытие**: Анализ покрытия кода тестами
-- **Бенчмарки**: Запуск performance тестов
-- **Форматирование**: Проверка `go fmt`
-- **Статический анализ**: Запуск `go vet`
-- **Go 1.24**: Используется последняя стабильная версия
+### Build Docs (`workflows/build-docs.yml`)
 
+При push в `main` (кроме изменений только в `docs/`):
 
-
-## Настройка
-
-### Автоматический запуск
-Workflows запускаются автоматически при:
-- Push в ветки: `main`, `master`, `develop`
-- Создание Pull Request в эти ветки
-
-### Ручной запуск
-Можно запустить workflows вручную:
-1. Перейдите в раздел "Actions" на GitHub
-2. Выберите нужный workflow
-3. Нажмите "Run workflow"
-
-## Требования
-
-- Go 1.21 или выше
-- GitHub repository с включенными Actions
+- сборка PDF через WeasyPrint
+- коммит `docs/*.pdf` ботом `github-actions[bot]`
 
 ## Локальная проверка
 
-Перед пушем рекомендуется проверить код локально:
+Перед push — из корня проекта:
 
-### Автоматическая проверка
 ```bash
-# Запуск всех проверок одним скриптом
 ./scripts/check.sh
 ```
 
-### Ручная проверка
+Ручной запуск тех же команд:
+
 ```bash
-# Запуск тестов
-go test -v ./go-interview-tasks/tests/...
-
-# Проверка покрытия
-go test -coverprofile=coverage.out ./go-interview-tasks/tests/... ./go-interview-tasks/strings/...
+cd go-interview-tasks
+go mod download
+go test -v ./tests/...
+go test -v -coverprofile=coverage.out ./tests/... ./strings/...
 go tool cover -func=coverage.out
-
-# Запуск бенчмарков
-go test -bench=. -benchmem ./go-interview-tasks/tests/...
-
-# Форматирование кода
-go fmt ./go-interview-tasks/...
-
-# Статический анализ
-go vet ./go-interview-tasks/...
+go test -bench=. -benchmem ./tests/...
+go fmt ./...
+go vet ./...
 ```
 
-## Уведомления
-
-- Успешные проверки: ✅ Зеленая галочка
-- Неудачные проверки: ❌ Красный крестик
-- Уведомления отправляются в GitHub и по email (если настроено)
-
-## Troubleshooting
-
-### Тесты не проходят
-1. Проверьте логи в GitHub Actions
-2. Запустите тесты локально: `./scripts/check.sh`
-3. Убедитесь, что все зависимости установлены
-
-
-
-### Проблемы с версиями Go
-1. Убедитесь, что используете Go 1.21+
-2. Проверьте `go.mod` файл
-3. Обновите Go до последней версии
-
-### Локальный скрипт не работает
-1. Убедитесь, что скрипт исполняемый: `chmod +x scripts/check.sh`
-2. Запускайте из корня проекта
-3. Проверьте, что Go установлен и доступен в PATH
-
-## Структура файлов
+## Структура
 
 ```
 .github/
 ├── workflows/
-│   └── go-tests.yml      # Основной workflow для тестов
-├── README.md              # Этот файл
-└── scripts/
-    └── check.sh          # Скрипт локальных проверок
+│   ├── go-tests.yml      # CI pipeline
+│   └── build-docs.yml    # сборка PDF в docs/
+└── README.md             # этот файл
+
+scripts/
+└── check.sh            # локальный аналог CI
+```
+
+## Требования
+
+- Go 1.24+ (как в CI)
+- Для PDF-сборки отдельно: Python 3, `./scripts/build_docs.sh`
+
+## Troubleshooting
+
+**Тесты падают в CI**
+1. Посмотреть логи в Actions
+2. Воспроизвести локально: `./scripts/check.sh`
+
+**`check.sh` не запускается**
+```bash
+chmod +x scripts/check.sh
+# запускать из корня репозитория, где лежит go.mod
+```
+
+**Ошибка форматирования**
+```bash
+cd go-interview-tasks && go fmt ./...
 ```

@@ -1,87 +1,111 @@
-# 🚀 Go Interview Preparation
+# Go Interview Preparation
 
-Полный набор материалов для подготовки к собеседованиям по Go: теоретические вопросы с ответами и практические задачи с решениями.
+Материалы для подготовки к собеседованиям по Go: теория, практические задачи, генерация PDF.
 
 [![Go Tests](https://github.com/utkonoser/interviews/workflows/Go%20Tests/badge.svg)](https://github.com/utkonoser/interviews/actions/workflows/go-tests.yml)
 
-## 📁 Структура проекта
+## Структура проекта
 
 ```
 interviews/
-├── go-interview-answers/       # Теоретические вопросы и ответы
-│   ├── basics/                # Основы языка
-│   ├── advanced/              # Продвинутые темы
-│   ├── architecture/          # Архитектурные вопросы
-│   ├── concurrency/           # Конкурентность
-│   ├── performance/           # Производительность
-│   └── README.md              # Полный список вопросов
-├── go-interview-tasks/         # Практические задачи
-│   ├── strings/               # Задачи по строкам
-│   ├── tests/                 # Тесты для задач
-│   └── README.md              # Описание задач
-├── .github/                    # CI/CD с GitHub Actions
-├── scripts/                    # Локальные скрипты проверки
-└── go.mod                     # Go module
+├── theory/                 # Теория: вопросы и ответы по темам
+│   ├── 01-basics.md
+│   ├── ...
+│   ├── 20-kafka.md
+│   └── questions.md        # Полный список вопросов
+├── go-interview-tasks/     # Практические задачи (LeetCode-style)
+│   ├── strings/
+│   └── tests/
+├── cv/                     # Резюме (markdown-исходники)
+│   ├── Nikita_Selin_Resume.md
+│   └── Nikita_Selin_Resume_EN.md
+├── scripts/                # Скрипты проверки и сборки документов
+│   ├── check.sh            # Локальные Go-проверки (как в CI)
+│   ├── build_docs.sh       # Сборка всех PDF
+│   ├── build_interview_pdf.py
+│   └── convert_resume_to_pdf.py
+├── docs/                   # PDF (генерируются CI при push в main)
+├── requirements.txt        # Python-зависимости для сборки PDF
+├── .venv/                  # Python venv (в .gitignore)
+└── go.mod
 ```
 
-## 🎯 Что включено
+## Теория
 
-### 📚 Теоретические вопросы (28 вопросов)
-- **Основы**: типы данных, слайсы, мапы, каналы, интерфейсы
-- **Архитектура**: обработка ошибок, размещение интерфейсов, логирование
-- **Конкурентность**: горутины, мьютексы, lock-free структуры  
-- **Производительность**: профилирование, метрики, оптимизация
-- **Продвинутые темы**: дженерики, преимущества/недостатки Go
+20 тематических файлов в `theory/`:
 
-### 💻 Практические задачи
-- **Palindrome** - проверка палиндрома с оптимизацией
-- **Reverse String** - разворот строки in-place
-- **Backspace Compare** - сравнение строк с backspace
-- **Remove Stars** - удаление звезд из строки
-- **Remove Duplicates** - удаление дубликатов
-- **Valid Parentheses** - проверка скобок
+| Тема | Файл |
+|------|------|
+| Основы Go | `01-basics.md` |
+| Структуры данных | `02-data-structures.md` |
+| Конкурентность, каналы, интерфейсы | `03`–`05` |
+| Память, ошибки, тесты, модули | `06`–`09` |
+| Практические задачи (код) | `10-practical-tasks.md` |
+| System design, БД, HTTP, perf | `11`–`14` |
+| Security, networking, OS | `15`–`17` |
+| БД (общая теория), SOLID, Kafka | `18`–`20` |
 
-## 🚀 Быстрый старт
+Полный оглавление — в `theory/questions.md`.
+
+## Практические задачи
+
+6 задач по строкам в `go-interview-tasks/strings/`:
+
+- Palindrome (LeetCode #125)
+- Reverse String (#344)
+- Backspace Compare (#844)
+- Remove Stars (#2390)
+- Remove Adjacent Duplicates (#1047)
+- Valid Parentheses (#20)
+
+## Быстрый старт
 
 ```bash
-# Клонируйте репозиторий
 git clone <repository-url>
 cd interviews
 
-# Изучите теоретические вопросы
-open go-interview-answers/README.md
-
-# Запустите тесты практических задач
-cd go-interview-tasks
-go test -v ./tests/...
-
-# Или используйте локальный скрипт
+# Теория — читать markdown в theory/
+# Практика — запустить тесты
 ./scripts/check.sh
+
+# Собрать PDF (теория + резюме)
+./scripts/build_docs.sh
+# → docs/interview-guide.pdf
+# → docs/Nikita_Selin_Resume.pdf
 ```
 
-## 🔄 CI/CD
+### Python-окружение (для PDF)
 
-Проект использует GitHub Actions для автоматической проверки:
-- **Тесты**: Автоматический запуск при каждом пуше
-- **Покрытие**: Анализ покрытия кода тестами
-- **Бенчмарки**: Performance тестирование
-- **Форматирование**: Проверка `go fmt`
-- **Статический анализ**: Запуск `go vet`
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python scripts/build_interview_pdf.py
+python scripts/convert_resume_to_pdf.py cv/Nikita_Selin_Resume.md
+```
 
-## 📖 Как использовать
+## CI/CD
 
-1. **Теория**: Изучите вопросы в `go-interview-answers/` - начните с `basics/`
-2. **Практика**: Решите задачи в `go-interview-tasks/` и запустите тесты
-3. **Подготовка**: Повторите сложные темы перед собеседованием
+GitHub Actions (`go-tests.yml`) при каждом push/PR:
 
-## 🎉 Особенности
+- unit-тесты и покрытие
+- бенчмарки
+- `go fmt` и `go vet`
 
-- ✅ Полные ответы с примерами кода
-- ✅ Оптимизированные решения задач  
-- ✅ Comprehensive тесты
-- ✅ Best practices Go
-- ✅ CI/CD с GitHub Actions
-- ✅ Готово к использованию
+Локальный аналог: `./scripts/check.sh`
 
----
-**Удачи на собеседовании! 🚀**
+## PDF в `docs/`
+
+При push в `main` workflow [build-docs.yml](.github/workflows/build-docs.yml) пересобирает PDF из `theory/` и `cv/` и коммитит в `docs/`:
+
+- `interview-guide.pdf`
+- `Nikita_Selin_Resume.pdf`
+- `Nikita_Selin_Resume_EN.pdf`
+
+Локально: `./scripts/build_docs.sh`
+
+## Как готовиться
+
+1. Пройти теорию по темам в `theory/` (или сгенерировать PDF и слушать/читать)
+2. Решить задачи в `go-interview-tasks/`, прогнать тесты
+3. Повторить слабые места по `theory/questions.md`
