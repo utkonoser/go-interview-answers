@@ -86,4 +86,14 @@ Kubelet детектит (probe fail, exit code != 0) → удаляет pod →
 
 ## 183. Как Go-сервис деплоится в k8s: healthcheck, graceful shutdown, SIGTERM
 
-1) **Dockerfile** multi-stage → маленький image. 2) **Deployment** + probes на `/healthz` и `/ready`. 3) **SIGTERM** при остановке pod — `signal.Notify` + `server.Shutdown(ctx)` с таймаутом < `terminationGracePeriodSeconds`. 4) **PreStop hook** (опционально) — sleep для drain из Service. 5) **ConfigMap/Secret** для конфига. 6) **resources** по результатам нагрузочного теста.
+1) **Dockerfile** multi-stage → маленький image.
+
+2) **Deployment** + probes на `/healthz` и `/ready`.
+
+3) **SIGTERM** при остановке pod — `signal.Notify` + `server.Shutdown(ctx)` с таймаутом < `terminationGracePeriodSeconds`.
+
+4) **PreStop hook** (опционально) — sleep для drain из Service.
+
+5) **ConfigMap/Secret** для конфига.
+
+6) **resources** по результатам нагрузочного теста.
