@@ -3,7 +3,7 @@
 Задачи на Go для тренировки перед собесами.
 
 - **Алгоритмы** — `strings/`, тесты в `tests/`
-- **Code review** — `code-review/` (базовые 01–07 + комплексные 08–10, см. README)
+- **Code review** — `code-review/` (01–07 базовые, 08–10 комплексные, 11–12 2ГИС, 13–15 Lamoda)
 
 ```bash
 ./scripts/check.sh
