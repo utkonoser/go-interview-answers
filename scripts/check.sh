@@ -23,6 +23,9 @@ go mod download
 echo "🧪 Запуск тестов..."
 go test -v ./tests/...
 
+echo "🔎 Code review (solution)..."
+go test -tags=solution -race ./code-review/tests/...
+
 echo "📊 Запуск тестов с покрытием..."
 go test -v -coverprofile=coverage.out ./tests/... ./strings/...
 
