@@ -4,6 +4,7 @@
 
 - **Алгоритмы** — `strings/`, тесты в `tests/`
 - **Code review** — `code-review/` (01–07 базовые, 08–10 комплексные, 11–12 2ГИС, 13–15 Lamoda)
+- **SQL** — `sql/` (Avito/Ozon, WB/Lamoda, 2ГИС, Магнит)
 
 ```bash
 ./scripts/check.sh
