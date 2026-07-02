@@ -221,6 +221,14 @@ func TestErrgroupCancelOnError(t *testing.T) {
 	}
 }
 
+func TestErrgroupParallelFetch(t *testing.T) {
+	t.Parallel()
+
+	if err := errgroup.ParallelFetch(context.Background()); err != nil {
+		t.Fatal(err)
+	}
+}
+
 func TestSingleflightOneCall(t *testing.T) {
 	t.Parallel()
 
@@ -284,6 +292,15 @@ func TestSemaphoreLimitsConcurrency(t *testing.T) {
 
 	if peak.Load() > 2 {
 		t.Fatalf("peak concurrency = %d, want <= 2", peak.Load())
+	}
+}
+
+func TestSemaphoreFetchURLsParallel(t *testing.T) {
+	t.Parallel()
+
+	urls := []string{"/a", "/b", "/c", "/d", "/e"}
+	if err := semaphore.FetchURLsParallel(context.Background(), urls, 2); err != nil {
+		t.Fatal(err)
 	}
 }
 
