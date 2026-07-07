@@ -20,3 +20,30 @@
 
 Создать тип с методом `Error() string`: `type MyError struct { Code int; Msg string }` с `func (e MyError) Error() string { return e.Msg }`. Можно добавить методы для проверки: `func (e MyError) Is(target error) bool` для `errors.Is()`, `func (e MyError) As(target interface{}) bool` для `errors.As()`. Использовать для ошибок с дополнительной информацией (коды, контекст, recoverable состояния).
 
+## 63. Как работают `panic` и `recover`? Чем panic отличается от `error`?
+
+**error** — обычное значение, часть сигнатуры функции. Вызывающий **обязан** проверить `if err != nil`. Ошибка — ожидаемый сбой: сеть, валидация, «не найдено». Управление идёт явно, стек не раскручивается.
+
+**panic** — механизм исключений runtime: раскрутка стека, выполнение всех `defer` по пути вверх. Останавливается только `recover()` **внутри defer** той же горутины. Если recover не поймал — процесс падает (кроме panic в горутине — умирает только она).
+
+| | `error` | `panic` |
+|---|---------|---------|
+| Когда | ожидаемые сбои | баг, нарушен инвариант, init() |
+| Кто обрабатывает | каждый caller | `recover` выше по стеку |
+| Горутина | текущая продолжает | раскрутка до recover или crash |
+| В библиотеках | всегда | почти никогда (кроме Must*) |
+
+**panic в горутине:** не убивает весь процесс, но запрос/воркер обрывается. В HTTP — middleware с `defer recover()` и лог stack trace.
+
+**recover:** возвращает аргумент `panic(x)`. Вне defer — бесполезен. Паттерн:
+
+```go
+defer func() {
+    if r := recover(); r != nil {
+        log.Printf("panic: %v\n%s", r, debug.Stack())
+    }
+}()
+```
+
+**На собесе:** «ошибку файла — `error`, nil pointer в проде — баг, но в handler ловим recover». Не использовать panic для control flow.
+
