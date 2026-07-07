@@ -24,8 +24,18 @@ DEFAULT_OUTPUT = os.path.join(REPO_ROOT, "docs", "interview-guide.pdf")
 SECTIONS: list[tuple[str, list[str], set[str]]] = [
     (
         "Теория",
-        ["theory/*.md"],
+        ["theory/[0-9]*.md"],
         {"questions.md"},
+    ),
+    (
+        "Magnit Tech",
+        ["theory/magnit-tech/[0-9]*.md"],
+        set(),
+    ),
+    (
+        "Avito",
+        ["theory/avito/[0-9]*.md"],
+        set(),
     ),
 ]
 

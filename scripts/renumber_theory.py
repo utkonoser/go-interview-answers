@@ -59,17 +59,22 @@ def main() -> None:
             lines.append(f"{num}. {q}\n")
         lines.append("\n")
 
-    magnit_dir = THEORY / "magnit-tech"
-    magnit_files = sorted(magnit_dir.glob("[0-9]*.md")) if magnit_dir.is_dir() else []
-    if magnit_files:
-        lines.append("## Magnit Tech (`magnit-tech/`)\n")
+    for subdir, prefix, title in (
+        ("magnit-tech", "M", "Magnit Tech"),
+        ("avito", "A", "Avito"),
+    ):
+        company_dir = THEORY / subdir
+        company_files = sorted(company_dir.glob("[0-9]*.md")) if company_dir.is_dir() else []
+        if not company_files:
+            continue
+        lines.append(f"## {title} (`{subdir}/`)\n")
         lines.append("\n")
-        lines.append("Отдельный блок вопросов с собесов Magnit Tech. Ответы — в `theory/magnit-tech/`.\n")
+        lines.append(f"Отдельный блок вопросов с собесов {title}. Ответы — в `theory/{subdir}/`.\n")
         lines.append("\n")
-        for path in magnit_files:
+        for path in company_files:
             text = path.read_text(encoding="utf-8")
             for line in text.splitlines():
-                m = re.match(r"^## (M\d+)\. (.+)$", line)
+                m = re.match(rf"^## ({prefix}\d+[a-z]?)\. (.+)$", line)
                 if m:
                     lines.append(f"- **{m.group(1)}** {m.group(2)} → `{path.name}`\n")
             lines.append("\n")

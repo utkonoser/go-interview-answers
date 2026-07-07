@@ -296,3 +296,23 @@
 
 - **M6** Rate limiter на PostgreSQL и в Go на atomic (почему не `int`) → `06-rate-limiter.md`
 
+## Avito (`avito/`)
+
+Отдельный блок вопросов с собесов Avito (Backend screening + платформа Go). Ответы — в `theory/avito/`.
+
+- **A1** Go: слайс, map, set, каналы, context, panic → `01-screening-theory.md`
+
+- **A2** Что такое горутины и как они соотносятся с потоками ОС? → `02-goroutines-and-runtime.md`
+
+- **A3** Каналы → `03-channels-sync-interfaces.md`
+
+- **A4** Указатели: что выведет программа? → `04-code-review-puzzles.md`
+
+- **A5** Сборка сниппета товара → `05-snippet-build.md`
+
+- **A6** Прогноз погоды при 10k RPS → `06-weather-cache.md`
+
+- **A7** IO-bound: 10 000 последовательных «сетевых» вызовов → `07-network-parallel-timeout.md`
+
+- **A8** Чемпионат по шагам → `08-algos.md`
+
