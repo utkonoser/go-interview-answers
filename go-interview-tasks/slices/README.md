@@ -27,5 +27,6 @@ go test -v ./slices/...
 | 6 | `Puzzle06FullSliceExpr` | `s[low:high:max]` ограничивает `cap`, `append` не трогает родителя |
 | 7 | `Puzzle07AppendNoAssign` | `append` в функции без присваивания — длина снаружи не растёт |
 | 8 | `Puzzle08MutateIndex` | Индекс в функции меняет общий массив |
+| 9 | `Puzzle09LoopAddrAppend` | `&number` в цикле — один адрес; `append` в функции без return |
 
 Разбор — в комментариях к тестам в `puzzles_test.go`.

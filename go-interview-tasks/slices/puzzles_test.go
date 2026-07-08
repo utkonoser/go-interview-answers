@@ -76,3 +76,10 @@ func TestPuzzle08MutateIndex(t *testing.T) {
 	got := Puzzle08MutateIndex()
 	assertResult(t, got, Result{Values: []int{77, 2, 3}, Len: 3, Cap: 3})
 }
+
+func TestPuzzle09LoopAddrAppend(t *testing.T) {
+	t.Parallel()
+	// все &number указывают на одну переменную (итог 3); appendLen не увеличивает len снаружи
+	got := Puzzle09LoopAddrAppend()
+	assertResult(t, got, Result{Values: []int{3, 3, 3}, Len: 3, Cap: 5})
+}
