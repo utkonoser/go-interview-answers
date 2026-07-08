@@ -96,3 +96,29 @@ func Puzzle08MutateIndex() Result {
 func mutateIndex(s []int) {
 	s[0] = 77
 }
+
+// Puzzle09LoopAddrAppend — адрес одной переменной в цикле + append в функции без return.
+func Puzzle09LoopAddrAppend() Result {
+	numbers := make([]*int, 0, 5)
+	var number int
+	for range 3 {
+		number++
+		numbers = append(numbers, &number)
+	}
+	appendLen(numbers)
+
+	vals := make([]int, 0, len(numbers))
+	for _, p := range numbers {
+		vals = append(vals, *p)
+	}
+	return Result{
+		Values: vals,
+		Len:    len(numbers),
+		Cap:    cap(numbers),
+	}
+}
+
+func appendLen(numbers []*int) {
+	size := len(numbers)
+	numbers = append(numbers, &size)
+}
