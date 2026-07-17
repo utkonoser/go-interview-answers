@@ -280,6 +280,14 @@
 208. Миграция с монолита на микросервисы без даунтайма (Strangler)
 209. Медленный endpoint — пошаговая оптимизация
 
+## Системный дизайн — кейсы (`25-system-design-cases.md`)
+
+210. URL Shortener (сокращатель ссылок)
+211. Rate Limiter (ограничение RPS)
+212. Notification System (push / email / SMS)
+213. News Feed / лента (Twitter, Instagram)
+214. Chat / Messenger (real-time)
+
 ## Magnit Tech (`magnit-tech/`)
 
 Отдельный блок вопросов с собесов Magnit Tech. Ответы — в `theory/magnit-tech/`.
